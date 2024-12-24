@@ -3,6 +3,7 @@ package com.example.foodhub
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.system.Os.remove
+import android.util.Log
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
@@ -17,16 +18,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.example.foodhub.data.FoodHubApi
 import com.example.foodhub.ui.theme.FoodHubTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private var showSplashScreen = true
+    @Inject
+    lateinit var foodHubApi: FoodHubApi
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen().apply {
             setKeepOnScreenCondition {
@@ -61,6 +66,10 @@ class MainActivity : ComponentActivity() {
             FoodHubTheme {
 
             }
+        }
+
+        if(::foodHubApi.isInitialized) {
+            Log.d("MainActivity", "FoodHubApi is initialized")
         }
         CoroutineScope(Dispatchers.IO).launch {
             delay(4000)
