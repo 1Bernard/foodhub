@@ -21,6 +21,7 @@ import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.foodhub.data.FoodHubApi
 import com.example.foodhub.ui.features.auth.AuthScreen
+import com.example.foodhub.ui.features.auth.signup.SignUpScreen
 import com.example.foodhub.ui.theme.FoodHubTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -67,8 +68,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             FoodHubTheme {
                 Scaffold() { innerPadding ->
-                    Box(modifier = Modifier.padding(innerPadding))
-                    AuthScreen()
+                    Box(modifier = Modifier.padding(innerPadding)) {
+                        SignUpScreen()
+                    }
+
                 }
             }
         }

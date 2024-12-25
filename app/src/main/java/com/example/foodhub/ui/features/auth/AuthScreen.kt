@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.foodhub.R
+import com.example.foodhub.ui.GroupSocialButtons
 import com.example.foodhub.ui.theme.LinearDark
 import com.example.foodhub.ui.theme.Orange
 
@@ -120,53 +121,7 @@ fun AuthScreen() {
             verticalArrangement = Arrangement.spacedBy(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(id = R.string.sign_in_title),
-                color = Color.White
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-               Button(
-                   onClick = { /*TODO*/ },
-                   colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                   shape = RoundedCornerShape(32.dp)
-               ) {
-                   Row(
-                       modifier = Modifier.height(40.dp),
-                       verticalAlignment = Alignment.CenterVertically
-                   ) {
-                       Image(
-                           painter = painterResource(id = R.drawable.ic_google),
-                           contentDescription = null,
-                           modifier = Modifier.padding(end = 8.dp)
-                       )
-                       Text(text = stringResource(id = R.string.sign_with_google), color = Color.Black)
-                   }
-
-               }
-
-               Button(
-                   onClick = { /*TODO*/ },
-                   colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                   shape = RoundedCornerShape(32.dp)
-               ) {
-                   Row(
-                       modifier = Modifier.height(40.dp),
-                       verticalAlignment = Alignment.CenterVertically
-                   ) {
-                       Image(
-                           painter = painterResource(id = R.drawable.ic_facebook),
-                           contentDescription = null,
-                           modifier = Modifier.padding(end = 8.dp)
-                       )
-                       Text(text = stringResource(id = R.string.sign_with_facebook), color = Color.Black)
-                   }
-
-               }
-            }
+            GroupSocialButtons(onFacebookClick = { /*TODO*/ }, onGoogleClick = { /*TODO*/ })
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Gray.copy(alpha = 0.2f)),
