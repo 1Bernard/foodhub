@@ -95,11 +95,16 @@ fun SocialButton(
     title: Int,
     onClick: () -> Unit
 ) {
-
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-        shape = RoundedCornerShape(32.dp)
+        shape = RoundedCornerShape(32.dp),
+        modifier = Modifier
+            .shadow(
+                elevation = 0.1.dp, // Adjust this for the shadow's intensity
+                shape = RoundedCornerShape(32.dp),
+                clip = false
+            )
     ) {
         Row(
             modifier = Modifier.height(40.dp),
@@ -112,10 +117,9 @@ fun SocialButton(
             )
             Text(text = stringResource(id = title), color = Color.Black)
         }
-
     }
-
 }
+
 
 @Composable
 fun FoodHubTextField(
