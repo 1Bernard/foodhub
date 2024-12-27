@@ -59,17 +59,24 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    //Lifecycle
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
     //splash screen
     implementation(libs.androidx.core.splashscreen)
 
     //Hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.hilt.android.compiler)
 
     //Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
+
+    //Navigation
+    implementation(libs.androidx.navigation.compose)
 }
 
 kapt {
