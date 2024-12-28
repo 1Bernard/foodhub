@@ -1,4 +1,4 @@
-package com.example.foodhub.ui.features.auth.signup
+package com.example.foodhub.ui.features.auth.login
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
@@ -52,15 +52,15 @@ import com.example.foodhub.ui.GroupSocialButtons
 import com.example.foodhub.ui.navigation.AuthScreen
 import com.example.foodhub.ui.navigation.Home
 import com.example.foodhub.ui.navigation.Login
+import com.example.foodhub.ui.navigation.SignUp
 import com.example.foodhub.ui.theme.Orange
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun SignUpScreen(navController: NavController, viewModel: SignUpViewModel = hiltViewModel()) {
-    val text = stringResource(id = R.string.already_have_account)
-    val splitText = text.split("Login")
+fun SignInScreen(navController: NavController, viewModel: SignInViewModel = hiltViewModel()) {
+    val text = stringResource(id = R.string.dont_have_account)
+    val splitText = text.split("Signup")
     Box(modifier = Modifier.fillMaxSize()) {
-        val name = viewModel.name.collectAsStateWithLifecycle()
         val email = viewModel.email.collectAsStateWithLifecycle()
         val password = viewModel.password.collectAsStateWithLifecycle()
         val errorMessage = remember { mutableStateOf<String?>(null) }
@@ -68,12 +68,12 @@ fun SignUpScreen(navController: NavController, viewModel: SignUpViewModel = hilt
 
         val uiState = viewModel.uiState.collectAsState()
         when (uiState.value) {
-            is SignUpViewModel.SignUpEvent.Loading -> {
+            is SignInViewModel.SignInEvent.Loading -> {
                 loading.value = true
                 errorMessage.value = null
             }
 
-            is SignUpViewModel.SignUpEvent.Error -> {
+            is SignInViewModel.SignInEvent.Error -> {
                 loading.value = false
                 errorMessage.value = "An error occurred"
             }
@@ -88,7 +88,7 @@ fun SignUpScreen(navController: NavController, viewModel: SignUpViewModel = hilt
         LaunchedEffect(true) {
             viewModel.navigationEvent.collectLatest { event ->
                 when (event) {
-                    is SignUpViewModel.SignUpNavigationEvent.NavigateToHome -> {
+                    is SignInViewModel.SignInNavigationEvent.NavigateToHome -> {
                         navController.navigate(Home) {
                             popUpTo(AuthScreen) {
                                 inclusive = true
@@ -97,8 +97,8 @@ fun SignUpScreen(navController: NavController, viewModel: SignUpViewModel = hilt
                         }
                     }
 
-                    is SignUpViewModel.SignUpNavigationEvent.NavigateToLogin -> {
-                        navController.navigate(Login)
+                    is SignInViewModel.SignInNavigationEvent.NavigateToSignUp -> {
+                        navController.navigate(SignUp)
                     }
 
                     else -> {
@@ -123,20 +123,12 @@ fun SignUpScreen(navController: NavController, viewModel: SignUpViewModel = hilt
         ) {
             Box(modifier = Modifier.weight(1f))
             Text(
-                text = stringResource(id = R.string.sign_up),
+                text = stringResource(id = R.string.sign_in),
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(20.dp))
-            FoodHubTextField(
-                value = name.value,
-                onValueChange = { viewModel.onNameChange(it) },
-                label = {
-                    Text(text = stringResource(id = R.string.full_name), color = Color.Gray)
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
             FoodHubTextField(
                 value = email.value,
                 onValueChange = { viewModel.onEmailChange(it) },
@@ -163,7 +155,7 @@ fun SignUpScreen(navController: NavController, viewModel: SignUpViewModel = hilt
             Spacer(modifier = Modifier.height(60.dp))
             Text(text = errorMessage.value ?: "", color = Color.Red)
             Button(
-                onClick = viewModel::onSignUpClick,
+                onClick = viewModel::onSignInClick,
                 modifier = Modifier.height(50.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Orange)
             ) {
@@ -186,7 +178,7 @@ fun SignUpScreen(navController: NavController, viewModel: SignUpViewModel = hilt
                         } else {
                             Text(
                                 modifier = Modifier.padding(horizontal = 50.dp),
-                                text = stringResource(id = R.string.sign_up),
+                                text = stringResource(id = R.string.sign_in),
                                 color = Color.White
                             )
                         }
@@ -198,16 +190,16 @@ fun SignUpScreen(navController: NavController, viewModel: SignUpViewModel = hilt
             Spacer(modifier = Modifier.height(30.dp))
             Text(
                 text = buildAnnotatedString {
-                    append(splitText[0]) // "Already have an account? "
+                    append(splitText[0]) // "Don't have an account? "
                     withStyle(style = SpanStyle(color = Orange)) { // Orange color
-                        append("Login")
+                        append("Signup")
                     }
                 },
                 modifier = Modifier
                     .padding(bottom = 16.dp)
                     .fillMaxWidth()
                     .clickable {
-                        viewModel.onLoginClicked()
+                        viewModel.onSignUpClicked()
                     },
                 textAlign = TextAlign.Center,
             )
@@ -223,6 +215,6 @@ fun SignUpScreen(navController: NavController, viewModel: SignUpViewModel = hilt
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun SignUpScreenPreview() {
-    SignUpScreen(rememberNavController())
+fun SignInScreenPreview() {
+    SignInScreen(rememberNavController())
 }

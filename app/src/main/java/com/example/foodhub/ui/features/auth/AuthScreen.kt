@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,13 +35,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.foodhub.R
 import com.example.foodhub.ui.GroupSocialButtons
+import com.example.foodhub.ui.navigation.Login
+import com.example.foodhub.ui.navigation.SignUp
 import com.example.foodhub.ui.theme.LinearDark
 import com.example.foodhub.ui.theme.Orange
 
 @Composable
-fun AuthScreen() {
+fun AuthScreen(navController: NavController, ) {
     val imageSize = remember {
         mutableStateOf(IntSize.Zero)
     }
@@ -60,6 +65,7 @@ fun AuthScreen() {
             painter = painterResource(id = R.drawable.signin_bg),
             contentDescription = null,
             modifier = Modifier
+                .fillMaxSize()
                 .onGloballyPositioned {
                     imageSize.value = it.size
                 }
@@ -127,13 +133,13 @@ fun AuthScreen() {
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Gray.copy(alpha = 0.2f)),
                 shape = RoundedCornerShape(32.dp),
                 border = BorderStroke(1.dp, Color.White),
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate(SignUp) },
                 contentPadding = PaddingValues(vertical = 20.dp)
             ) {
                 Text(text = stringResource(id = R.string.sign_with_email), color = Color.White)
             }
             TextButton(
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate(Login)},
             ) {
                 Text(text = stringResource(id = R.string.already_have_account), color = Color.White)
             }
@@ -145,5 +151,5 @@ fun AuthScreen() {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun AuthScreenPreview() {
-    AuthScreen()
+    AuthScreen(rememberNavController())
 }
